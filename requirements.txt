@@ -1,10 +1,26 @@
-fastapi==0.109.0
-uvicorn==0.27.0
-sqlalchemy==2.0.25
-httpx==0.26.0
-pydantic==2.5.3
-python-multipart==0.0.6
-pytest==7.4.3
-pytest-asyncio==0.21.1
-psycopg2-binary==2.9.9
-gunicorn==21.2.0
+# FastAPI y servidor ASGI
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+
+# Base de datos
+sqlalchemy==2.0.36
+
+# Cliente HTTP
+httpx==0.28.1
+
+# Validación de datos (versión con binarios pre-compilados)
+pydantic==2.10.3
+pydantic-core==2.27.1
+
+# Utilidades
+python-multipart==0.0.20
+
+# Testing (solo para desarrollo, pero las dejamos)
+pytest==8.3.4
+pytest-asyncio==0.24.0
+
+# PostgreSQL (para producción, opcional)
+psycopg2-binary==2.9.10
+
+# Servidor WSGI (alternativa)
+gunicorn==23.0.0
