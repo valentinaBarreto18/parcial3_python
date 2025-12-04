@@ -1,0 +1,67 @@
+# Configuración de Render para API Recetario
+# Este archivo automatiza el despliegue de los 3 microservicios
+
+services:
+  # API Gateway - Servicio Principal
+  - type: web
+    name: api-recetario-gateway
+    runtime: python
+    env: python
+    region: oregon
+    plan: free
+    branch: master
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api_gateway.app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.7
+      - key: RECETAS_SERVICE_URL
+        fromService:
+          type: web
+          name: api-recetario-recetas
+          property: host
+      - key: INGREDIENTES_SERVICE_URL
+        fromService:
+          type: web
+          name: api-recetario-ingredientes
+          property: host
+      - key: DATABASE_URL
+        value: sqlite:////opt/render/project/src/data/recetario.db
+    healthCheckPath: /health
+    
+  # Microservicio de Recetas
+  - type: web
+    name: api-recetario-recetas
+    runtime: python
+    env: python
+    region: oregon
+    plan: free
+    branch: master
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn servicio_recetas.app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.7
+      - key: DATABASE_URL
+        value: sqlite:////opt/render/project/src/data/recetario.db
+    healthCheckPath: /health
+    
+  # Microservicio de Ingredientes
+  - type: web
+    name: api-recetario-ingredientes
+    runtime: python
+    env: python
+    region: oregon
+    plan: free
+    branch: master
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn servicio_ingredientes.app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.7
+      - key: DATABASE_URL
+        value: sqlite:////opt/render/project/src/data/recetario.db
+    healthCheckPath: /health
+
+# Nota: Con el plan free, los servicios se duermen después de 15 minutos de inactividad
+# El primer request puede tardar 30-60 segundos en responder mientras el servicio despierta

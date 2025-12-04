@@ -177,6 +177,35 @@ curl -X POST http://localhost:8000/api/recetas/ \
   }'
 ```
 
+## 🌐 Despliegue en Producción
+
+### Desplegar en Render
+
+Este proyecto está configurado para desplegarse automáticamente en Render:
+
+1. **Push a GitHub:**
+   ```bash
+   git push origin master
+   ```
+
+2. **Crear Blueprint en Render:**
+   - Ve a [Render Dashboard](https://dashboard.render.com/)
+   - Clic en **New +** → **Blueprint**
+   - Conecta tu repositorio
+   - Render detectará automáticamente `render.yaml` y desplegará los 3 servicios
+
+3. **Acceder a tu API:**
+   - URL: `https://api-recetario-gateway.onrender.com`
+   - Docs: `https://api-recetario-gateway.onrender.com/docs`
+
+📖 **Guía completa:** Lee [DEPLOY.md](DEPLOY.md) para instrucciones detalladas.
+
+### Otras Plataformas
+
+- **Heroku**: Usa el `Procfile` incluido
+- **Railway**: Compatible con Docker Compose
+- **AWS/Azure/GCP**: Usa los Dockerfiles individuales
+
 ## 🤝 Contribuciones
 
 Las contribuciones son bienvenidas. Por favor:
@@ -193,7 +222,15 @@ Este proyecto está bajo la Licencia MIT.
 
 ## 👨‍💻 Autor
 
+Valentina Barreto - [GitHub](https://github.com/valentinaBarreto18)
+
 Proyecto desarrollado como demostración de arquitectura de microservicios con FastAPI.
+
+## 🔗 Links
+
+- **Repositorio:** https://github.com/valentinaBarreto18/parcial3_python
+- **Documentación de Despliegue:** [DEPLOY.md](DEPLOY.md)
+- **Colección Postman:** [Recetario_API.postman_collection.json](Recetario_API.postman_collection.json)
 
 ---
 
