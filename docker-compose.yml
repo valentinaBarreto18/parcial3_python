@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # API Gateway
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api_gateway/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - RECETAS_SERVICE_URL=http://servicio-recetas:8001
+      - INGREDIENTES_SERVICE_URL=http://servicio-ingredientes:8002
+      - DATABASE_URL=sqlite:////data/recetario.db
+    volumes:
+      - shared-data:/data
+    depends_on:
+      - servicio-recetas
+      - servicio-ingredientes
+    networks:
+      - recetario-network
+
+  # Microservicio de Recetas
+  servicio-recetas:
+    build:
+      context: .
+      dockerfile: servicio_recetas/Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - DATABASE_URL=sqlite:////data/recetario.db
+    volumes:
+      - shared-data:/data
+    networks:
+      - recetario-network
+
+  # Microservicio de Ingredientes
+  servicio-ingredientes:
+    build:
+      context: .
+      dockerfile: servicio_ingredientes/Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      - DATABASE_URL=sqlite:////data/recetario.db
+    volumes:
+      - shared-data:/data
+    networks:
+      - recetario-network
+
+volumes:
+  shared-data:
+    driver: local
+
+networks:
+  recetario-network:
+    driver: bridge

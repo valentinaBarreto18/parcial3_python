@@ -1,0 +1,736 @@
+{
+	"info": {
+		"_postman_id": "recetario-api-collection",
+		"name": "API Recetario de Cocina Familiar",
+		"description": "Colección completa de endpoints para la API de Recetario con microservicios.\n\n**Arquitectura:**\n- API Gateway: http://localhost:8000\n- Microservicio Recetas: http://localhost:8001\n- Microservicio Ingredientes: http://localhost:8002",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API Gateway",
+			"item": [
+				{
+					"name": "Root - Información del API",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								""
+							]
+						},
+						"description": "Obtiene información general del API Gateway y los servicios disponibles."
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check - Estado de Servicios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/health",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "Verifica el estado de salud de todos los microservicios."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints del API Gateway principal"
+		},
+		{
+			"name": "Ingredientes",
+			"item": [
+				{
+					"name": "Listar Ingredientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/ingredientes/?skip=0&limit=100",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"ingredientes",
+								""
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0",
+									"description": "Número de registros a saltar (paginación)"
+								},
+								{
+									"key": "limit",
+									"value": "100",
+									"description": "Número máximo de registros a retornar"
+								},
+								{
+									"key": "categoria",
+									"value": "vegetales",
+									"description": "Filtrar por categoría",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Obtiene la lista de todos los ingredientes. Soporta paginación y filtrado por categoría."
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Ingrediente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Tomate\",\n  \"unidad_medida\": \"gramos\",\n  \"categoria\": \"vegetales\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/ingredientes/",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"ingredientes",
+								""
+							]
+						},
+						"description": "Crea un nuevo ingrediente en el sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Ingrediente por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/ingredientes/1",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"ingredientes",
+								"1"
+							]
+						},
+						"description": "Obtiene un ingrediente específico por su ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Ingrediente",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"unidad_medida\": \"kilogramos\",\n  \"categoria\": \"vegetales\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/ingredientes/1",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"ingredientes",
+								"1"
+							]
+						},
+						"description": "Actualiza la información de un ingrediente existente."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Ingrediente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/ingredientes/1",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"ingredientes",
+								"1"
+							]
+						},
+						"description": "Elimina un ingrediente del sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Ingrediente por Nombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/ingredientes/buscar/tomate",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"ingredientes",
+								"buscar",
+								"tomate"
+							]
+						},
+						"description": "Busca ingredientes por nombre (búsqueda parcial, case-insensitive)."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestión de ingredientes"
+		},
+		{
+			"name": "Recetas",
+			"item": [
+				{
+					"name": "Listar Recetas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/recetas/?skip=0&limit=100",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"recetas",
+								""
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0",
+									"description": "Número de registros a saltar"
+								},
+								{
+									"key": "limit",
+									"value": "100",
+									"description": "Número máximo de registros"
+								}
+							]
+						},
+						"description": "Obtiene la lista de todas las recetas con paginación."
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Receta Simple",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Ensalada César\",\n  \"descripcion\": \"Ensalada clásica romana con lechuga, crutones y aderezo\",\n  \"tiempo_preparacion\": 15,\n  \"porciones\": 4,\n  \"pasos\": [],\n  \"ingredientes\": []\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/recetas/",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"recetas",
+								""
+							]
+						},
+						"description": "Crea una receta simple sin pasos ni ingredientes."
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Receta Completa",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Pasta Carbonara\",\n  \"descripcion\": \"Receta italiana clásica con pasta, huevo, queso pecorino y panceta\",\n  \"tiempo_preparacion\": 25,\n  \"porciones\": 4,\n  \"pasos\": [\n    {\n      \"numero_paso\": 1,\n      \"descripcion\": \"Poner agua con sal a hervir en una olla grande\"\n    },\n    {\n      \"numero_paso\": 2,\n      \"descripcion\": \"Cocinar la pasta según las instrucciones del paquete (8-10 minutos)\"\n    },\n    {\n      \"numero_paso\": 3,\n      \"descripcion\": \"Mientras tanto, batir los huevos con el queso rallado y pimienta\"\n    },\n    {\n      \"numero_paso\": 4,\n      \"descripcion\": \"Freír la panceta en una sartén hasta que esté crujiente\"\n    },\n    {\n      \"numero_paso\": 5,\n      \"descripcion\": \"Escurrir la pasta y mezclar rápidamente con la mezcla de huevo y la panceta\"\n    },\n    {\n      \"numero_paso\": 6,\n      \"descripcion\": \"Servir inmediatamente con queso extra por encima\"\n    }\n  ],\n  \"ingredientes\": [\n    {\n      \"ingrediente_id\": 1,\n      \"cantidad\": 400\n    },\n    {\n      \"ingrediente_id\": 2,\n      \"cantidad\": 200\n    },\n    {\n      \"ingrediente_id\": 3,\n      \"cantidad\": 4\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/recetas/",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"recetas",
+								""
+							]
+						},
+						"description": "Crea una receta completa con pasos de preparación e ingredientes."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Receta por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/recetas/1",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"recetas",
+								"1"
+							]
+						},
+						"description": "Obtiene una receta específica con todos sus pasos."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Receta",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Pasta Carbonara Mejorada\",\n  \"tiempo_preparacion\": 30,\n  \"porciones\": 6\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/recetas/1",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"recetas",
+								"1"
+							]
+						},
+						"description": "Actualiza información básica de una receta."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Receta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/recetas/1",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"recetas",
+								"1"
+							]
+						},
+						"description": "Elimina una receta y todos sus pasos asociados."
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar Paso a Receta",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numero_paso\": 7,\n  \"descripcion\": \"Decorar con perejil fresco picado\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/recetas/1/pasos",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"recetas",
+								"1",
+								"pasos"
+							]
+						},
+						"description": "Agrega un nuevo paso a una receta existente."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Paso de Receta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/recetas/1/pasos/1",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"recetas",
+								"1",
+								"pasos",
+								"1"
+							]
+						},
+						"description": "Elimina un paso específico de una receta."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestión de recetas y pasos de preparación"
+		},
+		{
+			"name": "Ejemplos Completos",
+			"item": [
+				{
+					"name": "1. Crear Ingredientes Base",
+					"item": [
+						{
+							"name": "Crear Pasta",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombre\": \"Pasta Spaghetti\",\n  \"unidad_medida\": \"gramos\",\n  \"categoria\": \"pastas\"\n}"
+								},
+								"url": {
+									"raw": "{{gateway_url}}/api/ingredientes/",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"ingredientes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Crear Panceta",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombre\": \"Panceta\",\n  \"unidad_medida\": \"gramos\",\n  \"categoria\": \"carnes\"\n}"
+								},
+								"url": {
+									"raw": "{{gateway_url}}/api/ingredientes/",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"ingredientes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Crear Huevos",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombre\": \"Huevos\",\n  \"unidad_medida\": \"unidades\",\n  \"categoria\": \"lácteos\"\n}"
+								},
+								"url": {
+									"raw": "{{gateway_url}}/api/ingredientes/",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"ingredientes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Crear Queso Parmesano",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombre\": \"Queso Parmesano\",\n  \"unidad_medida\": \"gramos\",\n  \"categoria\": \"lácteos\"\n}"
+								},
+								"url": {
+									"raw": "{{gateway_url}}/api/ingredientes/",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"ingredientes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Crear Pimienta",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombre\": \"Pimienta Negra\",\n  \"unidad_medida\": \"gramos\",\n  \"categoria\": \"especias\"\n}"
+								},
+								"url": {
+									"raw": "{{gateway_url}}/api/ingredientes/",
+									"host": [
+										"{{gateway_url}}"
+									],
+									"path": [
+										"api",
+										"ingredientes",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Crear ingredientes base para las recetas de ejemplo"
+				},
+				{
+					"name": "2. Crear Receta Tarta de Manzana",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Tarta de Manzana Casera\",\n  \"descripcion\": \"Deliciosa tarta de manzana con canela, perfecta para compartir en familia\",\n  \"tiempo_preparacion\": 90,\n  \"porciones\": 8,\n  \"pasos\": [\n    {\n      \"numero_paso\": 1,\n      \"descripcion\": \"Precalentar el horno a 180°C\"\n    },\n    {\n      \"numero_paso\": 2,\n      \"descripcion\": \"Preparar la masa: mezclar harina, mantequilla fría en cubos y azúcar\"\n    },\n    {\n      \"numero_paso\": 3,\n      \"descripcion\": \"Agregar agua fría poco a poco hasta formar una masa homogénea\"\n    },\n    {\n      \"numero_paso\": 4,\n      \"descripcion\": \"Refrigerar la masa por 30 minutos\"\n    },\n    {\n      \"numero_paso\": 5,\n      \"descripcion\": \"Pelar y cortar las manzanas en rodajas finas\"\n    },\n    {\n      \"numero_paso\": 6,\n      \"descripcion\": \"Mezclar las manzanas con azúcar, canela y jugo de limón\"\n    },\n    {\n      \"numero_paso\": 7,\n      \"descripcion\": \"Estirar la masa y colocar en un molde engrasado\"\n    },\n    {\n      \"numero_paso\": 8,\n      \"descripcion\": \"Colocar las manzanas sobre la masa en forma circular\"\n    },\n    {\n      \"numero_paso\": 9,\n      \"descripcion\": \"Hornear por 45-50 minutos hasta que esté dorada\"\n    },\n    {\n      \"numero_paso\": 10,\n      \"descripcion\": \"Dejar enfriar antes de servir. Opcional: servir con helado de vainilla\"\n    }\n  ],\n  \"ingredientes\": []\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/recetas/",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"recetas",
+								""
+							]
+						},
+						"description": "Ejemplo de receta completa con pasos detallados"
+					},
+					"response": []
+				},
+				{
+					"name": "3. Crear Receta Pizza Margarita",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Pizza Margarita\",\n  \"descripcion\": \"Pizza clásica italiana con tomate, mozzarella y albahaca\",\n  \"tiempo_preparacion\": 120,\n  \"porciones\": 4,\n  \"pasos\": [\n    {\n      \"numero_paso\": 1,\n      \"descripcion\": \"Preparar la masa: mezclar harina, agua tibia, levadura, sal y aceite de oliva\"\n    },\n    {\n      \"numero_paso\": 2,\n      \"descripcion\": \"Amasar durante 10 minutos hasta obtener una masa elástica\"\n    },\n    {\n      \"numero_paso\": 3,\n      \"descripcion\": \"Dejar reposar la masa cubierta en un lugar tibio por 1 hora hasta que duplique su tamaño\"\n    },\n    {\n      \"numero_paso\": 4,\n      \"descripcion\": \"Precalentar el horno a 250°C\"\n    },\n    {\n      \"numero_paso\": 5,\n      \"descripcion\": \"Estirar la masa en forma circular sobre una superficie enharinada\"\n    },\n    {\n      \"numero_paso\": 6,\n      \"descripcion\": \"Colocar salsa de tomate y distribuir uniformemente\"\n    },\n    {\n      \"numero_paso\": 7,\n      \"descripcion\": \"Agregar mozzarella en rodajas por toda la pizza\"\n    },\n    {\n      \"numero_paso\": 8,\n      \"descripcion\": \"Hornear por 12-15 minutos hasta que el queso se derrita y los bordes estén dorados\"\n    },\n    {\n      \"numero_paso\": 9,\n      \"descripcion\": \"Decorar con hojas de albahaca fresca y un chorrito de aceite de oliva\"\n    }\n  ],\n  \"ingredientes\": []\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/recetas/",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"recetas",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Flujos completos de ejemplo para probar la API"
+		},
+		{
+			"name": "Microservicios Directos",
+			"item": [
+				{
+					"name": "Recetas - Health (Directo)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{recetas_url}}/health",
+							"host": [
+								"{{recetas_url}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "Verificar salud del microservicio de recetas directamente"
+					},
+					"response": []
+				},
+				{
+					"name": "Ingredientes - Health (Directo)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ingredientes_url}}/health",
+							"host": [
+								"{{ingredientes_url}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "Verificar salud del microservicio de ingredientes directamente"
+					},
+					"response": []
+				},
+				{
+					"name": "Recetas - Listar (Directo)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{recetas_url}}/recetas",
+							"host": [
+								"{{recetas_url}}"
+							],
+							"path": [
+								"recetas"
+							]
+						},
+						"description": "Acceso directo al microservicio de recetas"
+					},
+					"response": []
+				},
+				{
+					"name": "Ingredientes - Listar (Directo)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ingredientes_url}}/ingredientes",
+							"host": [
+								"{{ingredientes_url}}"
+							],
+							"path": [
+								"ingredientes"
+							]
+						},
+						"description": "Acceso directo al microservicio de ingredientes"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para acceso directo a los microservicios (sin pasar por el gateway)"
+		}
+	],
+	"variable": [
+		{
+			"key": "gateway_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "recetas_url",
+			"value": "http://localhost:8001",
+			"type": "string"
+		},
+		{
+			"key": "ingredientes_url",
+			"value": "http://localhost:8002",
+			"type": "string"
+		}
+	]
+}
